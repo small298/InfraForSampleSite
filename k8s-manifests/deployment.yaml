@@ -1,37 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sampleapp
+  name: sample-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sampleapp
+      app: sample-app
   template:
     metadata:
       labels:
-        app: sampleapp
+        app: sample-app
     spec:
-      initContainers:
-        - name: git-sync-init
-          image: k8s.gcr.io/git-sync/git-sync:v3.6.6
-          env:
-            - name: GIT_SYNC_REPO
-              value: "https://github.com/small298/SampleApp298.git"
-            - name: GIT_SYNC_BRANCH
-              value: "main"
-            - name: GIT_SYNC_ROOT
-              value: "/git"
-            - name: GIT_SYNC_ONE_TIME
-              value: "true"
-          volumeMounts:
-            - name: html
-              mountPath: /git
       containers:
         - name: nginx
           image: nginx
-          ports:
-            - containerPort: 80
           volumeMounts:
             - name: html
               mountPath: /usr/share/nginx/html
