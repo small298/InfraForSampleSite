@@ -1,38 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-app
-  labels:
-    app: sample-app
+  name: sampleapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sample-app
+      app: sampleapp
   template:
     metadata:
       labels:
-        app: sample-app
+        app: sampleapp
     spec:
-      initContainers:
-        - name: git-clone
-          image: alpine/git
-          args:
-            - clone
-            - --depth=1
-            - https://github.com/small298/SampleApp298.git
-            - /app
-          volumeMounts:
-            - name: html
-              mountPath: /app
       containers:
         - name: nginx
-          image: nginx:alpine
-          ports:
-            - containerPort: 80
+          image: nginx
           volumeMounts:
             - name: html
               mountPath: /usr/share/nginx/html
+        - name: git-sync
+          image: k8s.gcr.io/git-sync/git-sync:v3.6.6
+          env:
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/small298/SampleApp298.git"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_ROOT
+              value: "/git"
+            - name: GIT_SYNC_ONE_TIME
+              value: "false"
+            - name: GIT_SYNC_WAIT
+              value: "30"
+          volumeMounts:
+            - name: html
+              mountPath: /git
       volumes:
         - name: html
           emptyDir: {}
