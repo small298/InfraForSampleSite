@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/small298/SampleApp298.git
     targetRevision: HEAD
-    path: .
+    path: k8s-manifests
   
   destination:
     server: https://kubernetes.default.svc
