@@ -26,14 +26,14 @@ spec:
             - name: GIT_SYNC_BRANCH
               value: "main"
             - name: GIT_SYNC_ROOT
-              value: "/git"
+              value: "/git"  # Sync Git content here
             - name: GIT_SYNC_ONE_TIME
               value: "false"
             - name: GIT_SYNC_WAIT
               value: "30"
           volumeMounts:
             - name: html
-              mountPath: /usr/share/nginx/html  # Mount Git content directly into nginx's HTML serving directory
+              mountPath: /git  # Mount Git content here
       volumes:
         - name: html
-          emptyDir: {}  # Use a shared volume here, so both containers can access the same data
+          emptyDir: {}  # Shared volume for both containers
