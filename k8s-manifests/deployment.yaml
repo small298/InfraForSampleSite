@@ -33,7 +33,7 @@ spec:
               value: "30"
           volumeMounts:
             - name: html
-              mountPath: /git  # Sync the repository here
+              mountPath: /usr/share/nginx/html  # Mount Git content directly into nginx's HTML serving directory
       volumes:
         - name: html
-          emptyDir: {}  # Use a shared volume
+          emptyDir: {}  # Use a shared volume here, so both containers can access the same data
