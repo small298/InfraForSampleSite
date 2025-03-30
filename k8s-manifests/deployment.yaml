@@ -17,7 +17,7 @@ spec:
           image: nginx
           volumeMounts:
             - name: html
-              mountPath: /usr/share/nginx/html
+              mountPath: /usr/share/nginx/html  # Nginx serves the content from this directory
         - name: git-sync
           image: k8s.gcr.io/git-sync/git-sync:v3.6.6
           env:
@@ -33,7 +33,7 @@ spec:
               value: "30"
           volumeMounts:
             - name: html
-              mountPath: /git
+              mountPath: /git  # Sync the repository here
       volumes:
         - name: html
-          emptyDir: {}
+          emptyDir: {}  # Use a shared volume
